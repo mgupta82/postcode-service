@@ -1,0 +1,1 @@
+INSERT INTO POSTCODE(CODE,SUBURB,STATE) values (3192, 'Chetenham', 'VIC');
