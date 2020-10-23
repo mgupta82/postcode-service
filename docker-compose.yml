@@ -5,7 +5,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postcode
-      POSTGRES_PASSWORD: postcode
-      POSTGRES_DB: postcode
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
 
