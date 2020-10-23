@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.util.AssertionErrors;
 
 import java.util.List;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Sql(scripts= {"/scripts/test-search.sql"})
 public class PostcodeServiceTest {
     @Autowired
     private PostcodeService postcodeService;
