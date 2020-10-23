@@ -1,5 +1,6 @@
 package com.auspost.postcode.controller;
 
+import com.auspost.postcode.dto.ErrorResponse;
 import com.auspost.postcode.repository.entity.Postcode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.util.AssertionErrors;
-
-import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -57,6 +56,21 @@ public class PostcodeControllerTest {
         ResponseEntity<Postcode[]> responseEntity = restTemplate.exchange("/postcode/suburb/cha", HttpMethod.GET,request, Postcode[].class);
         AssertionErrors.assertEquals("Invalid Http Status",HttpStatus.OK,responseEntity.getStatusCode());
         AssertionErrors.assertEquals("Incorrect search result",3,responseEntity.getBody().length);
+    }
+
+    @Test
+    public void testErrorScenario() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE);
+        Postcode postcode = Postcode.builder()
+                .code(3111)
+                .suburb(null)
+                .state("VIC")
+                .build();
+        HttpEntity<Postcode> request = new HttpEntity<>(postcode);
+        ResponseEntity<ErrorResponse> responseEntity = restTemplate.exchange("/postcode/create", HttpMethod.POST,request,ErrorResponse.class);
+        AssertionErrors.assertEquals("Invalid Http Status",HttpStatus.BAD_REQUEST,responseEntity.getStatusCode());
+        AssertionErrors.assertEquals("Invaid Reason","missing mandatory fields",responseEntity.getBody().getReason());
     }
 
 }
