@@ -12,8 +12,12 @@ public class PostcodeService {
     @Autowired
     private PostcodeRepository postcodeRepository;
 
-    public Postcode getByCode(Integer code) {
-        return postcodeRepository.findById(code).orElse(null);
+    public Postcode getByCode(String code) {
+        return postcodeRepository.findById(Integer.valueOf(code)).orElse(null);
+    }
+
+    public Postcode saveCode(Postcode postcode) {
+        return postcodeRepository.save(postcode);
     }
 
 }

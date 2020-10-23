@@ -16,10 +16,21 @@ public class PostcodeServiceTest {
 
     @Test
     public void testGetByPostcode() {
-        Postcode postcode = postcodeService.getByCode(3192);
+        Postcode postcode = postcodeService.getByCode("3192");
         Assertions.assertNotNull(postcode);
         AssertionErrors.assertEquals("Invalid postcode",3192,postcode.getCode());
         AssertionErrors.assertEquals("Invalid Suburb","Cheltenham",postcode.getSuburb());
         AssertionErrors.assertEquals("Invalid State","VIC",postcode.getState());
+    }
+
+    @Test
+    public void testSavePostcode() {
+        Postcode persisted = postcodeService
+                .saveCode(Postcode.builder()
+                        .code(3063).suburb("Oakleigh").state("VIC").build());
+        Assertions.assertNotNull(persisted);
+        AssertionErrors.assertEquals("Invalid postcode",3063,persisted.getCode());
+        AssertionErrors.assertEquals("Invalid Suburb","Oakleigh",persisted.getSuburb());
+        AssertionErrors.assertEquals("Invalid State","VIC",persisted.getState());
     }
 }
