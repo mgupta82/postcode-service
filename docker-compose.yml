@@ -1,16 +1,11 @@
 version: '3.1'
-
 services:
-
-  db:
+  postcode-db:
     image: postgres:12
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: postcode
+      POSTGRES_PASSWORD: postcode
+      POSTGRES_DB: postcode
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
