@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -33,7 +34,13 @@ public class PostcodeController {
         if (postcode == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return  new ResponseEntity<>(postcode, HttpStatus.OK);
+        return new ResponseEntity<>(postcode, HttpStatus.OK);
+    }
+
+    @GetMapping(path ="/suburb/{suburb}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Postcode>> searchSuburb(@PathVariable String suburb) {
+        List<Postcode> postcodes = postcodeService.searchBySuburb(suburb);
+        return new ResponseEntity<>(postcodes, HttpStatus.OK);
     }
 
 }

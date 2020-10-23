@@ -9,6 +9,8 @@ import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.AssertionErrors;
 
+import java.util.List;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class PostcodeControllerTest {
@@ -43,6 +45,16 @@ public class PostcodeControllerTest {
         AssertionErrors.assertEquals("Invalid code",3192,responseEntity.getBody().getCode());
         AssertionErrors.assertEquals("Invalid suburb","Cheltenham",responseEntity.getBody().getSuburb());
         AssertionErrors.assertEquals("Invalid code","VIC",responseEntity.getBody().getState());
+    }
+
+    @Test
+    public void testSearchSuburb() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity request = new HttpEntity<>(null);
+        ResponseEntity<Postcode[]> responseEntity = restTemplate.exchange("/postcode/suburb/cha", HttpMethod.GET,request, Postcode[].class);
+        AssertionErrors.assertEquals("Invalid Http Status",HttpStatus.OK,responseEntity.getStatusCode());
+        AssertionErrors.assertEquals("Incorrect search result",3,responseEntity.getBody().length);
     }
 
 }
