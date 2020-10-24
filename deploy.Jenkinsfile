@@ -1,14 +1,15 @@
-def version = "${env.BUILD_NUMBER}"
-
 pipeline {
     agent any
-
-    stage('Checkout') {
-        scm checkout
+    parameters {
+        string(
+                name: 'SHORT_GIT_COMMIT',
+                defaultValue: '',
+                description: 'Git commit hash used to promote'
+        )
     }
-
-    stage 'Build'
-    sh "./gradlew -Pversion=${version} build"
-
-}
-
+    stage('Deploy to Production') {
+        steps {
+            sh 'sudo /usr/local/bin/docker-compose up -d'
+        }
+    }
+ }
