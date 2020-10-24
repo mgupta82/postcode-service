@@ -1,5 +1,11 @@
 #Postcode Service
 
+## Running Test
+
+``./gradlew clean test``
+
+Code coverage can be checked in build/reports/jacoco/test/html/index.html
+
 ## Build Project
 
 ``./gradlew clean build``
