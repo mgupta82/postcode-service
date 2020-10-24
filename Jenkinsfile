@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('*/5 * * * *')
-    }
-
     environment {
         SHORT_GIT_COMMIT = sh (script: 'echo $(git rev-parse --short HEAD)',returnStdout: true).trim()
     }
@@ -32,14 +28,14 @@ pipeline {
         }
         stage('Containerise') {
             steps {
-                sh "docker build . -t postcode-service:${SHORT_GIT_COMMIT}"
+                sh "sudo docker build . -t postcode-service:${SHORT_GIT_COMMIT}"
             }
         }
     }
     stage('Publish') {
         steps {
-            sh "docker tag  postcode-service:${SHORT_GIT_COMMIT} docker.io/mgupta82/postcode-service:latest"
-            sh "docker push docker.io/mgupta82/postcode-service"
+            sh "sudo docker tag  postcode-service:${SHORT_GIT_COMMIT} docker.io/mgupta82/postcode-service:latest"
+            sh "sudo docker push docker.io/mgupta82/postcode-service"
         }
     }
 
