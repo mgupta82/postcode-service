@@ -1,14 +1,13 @@
 ---
 Parameters:
-  SSHKey:TestInstance
-    Type: AWS::EC2::KeyPair::KeyName
+  SSHKey:
+    Type: String
     Description: Name of an existing EC2 KeyPair
 
 Resources:
   TestInstance:
     Type: AWS::EC2::Instance
     Properties:
-      AvailabilityZone:  ap-southeast-2a
       ImageId: ami-0970010f37c4f9c8d
       InstanceType: t2.micro
       KeyName: !Ref SSHKey
