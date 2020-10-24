@@ -12,34 +12,34 @@ Jenkinsfile.infra can be used to run below command for creating ec2 instance
 
 Jenkinsfile can be used in Multibranch pipeline setup on Jenkins to build project and create artifacts
 
-### Build Artifacts
+Build Artifacts
 
 ``./gradlew clean build``
 
-### Build Docker Images
+Build Docker Images
 
 ``sudo docker build . -t postcode-service:test``
 
-### Login to docker hub / artifactory
+Login to docker hub / artifactory
 
 ``sudo docker login``
 
-### Tag created docker images for docker hub / artifactory
+Tag  docker images for docker hub / artifactory
 
 ``sudo docker tag  postcode-service:test docker.io/mgupta82/postcode-service:latest``
 
-### Publish docker image with latest tag
+Publish docker image with latest tag
 
 ``sudo docker push docker.io/mgupta82/postcode-service:latest``
 
 ## CD
 Jenkinsfile.deploy is used to run docker images created by CI along with its dependencies.
 
-### Login to ec2 instance
+Login to ec2 instance
 
 ````ssh -i ~/.ssh/ec2web.pem ec2-user@postcode.mukeshgupta.info````
 
-### Start Depedencies and applications
+Start Depedencies and applications
 
 ``sudo /usr/local/bin/docker-compose up -d``
 
