@@ -28,6 +28,12 @@ Check Actuator Health endpoint
 
 ``curl http://localhost:8090/postcode/actuator/health``
 
+###Test using swagger-ui
+``http://localhost:8090/postcode/swagger-ui.html``
+
+###Swagger for building UI
+``http://localhost:8090/postcode/v2/api-docs``
+
 ## Build Project
 
 Build Artifacts
