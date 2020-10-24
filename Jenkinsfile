@@ -21,13 +21,14 @@ pipeline {
                 }
             }
         }
+    }
 
-        post {
-            failure {
-                mail to: 'mukeshsgupta@gmail.com', subject: 'Build failed', body: 'Please fix!'
-            }
+    post {
+        failure {
+            mail to: 'mukeshsgupta@gmail.com', subject: 'Build failed', body: 'Please fix!'
         }
     }
+
 }
 def gradlew(String... args) {
     sh "./gradlew ${args.join(' ')} -s"
