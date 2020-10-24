@@ -1,6 +1,35 @@
 # Postcode Service
 
-This service is  responsible for maintaining postcodes and lookup
+This service is responsible for maintaining postcodes and lookup
+
+## Local Development
+
+### Run Unit test
+
+``./gradlew clean test``
+
+Code coverage can be checked in build/reports/jacoco/test/html/index.html
+
+### Running App
+Start Dependencies like postgres DB
+
+``sudo /usr/local/bin/docker-compose up -d``
+
+``sudo /usr/local/bin/docker-compose down``
+
+Start Application with dev profile
+
+``./gradlew bootRun --args='--spring.profiles.active=dev'``
+
+Check Actuator Health endpoint
+
+``curl http://localhost:8090/postcode/actuator/health``
+
+### Test using swagger-ui
+``http://localhost:8090/postcode/swagger-ui.html``
+
+### Swagger for building UI
+``http://localhost:8090/postcode/v2/api-docs``
 
 ## Create Infra
 
@@ -39,38 +68,15 @@ Login to ec2 instance
 
 ````ssh -i ~/.ssh/ec2web.pem ec2-user@postcode.mukeshgupta.info````
 
-Start Depedencies and applications
+Start Dependencies and applications (ST Env)
 
-``sudo /usr/local/bin/docker-compose up -d``
+``sudo docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12``
 
-``sudo /usr/local/bin/docker-compose down``
+``sudo docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service``
 
-## Local Development
+### SIT and PROD env
 
-### Run Unit test
-
-``./gradlew clean test``
-
-Code coverage can be checked in build/reports/jacoco/test/html/index.html
-
-### Running App
-Start Dependencies like postgres DB
-
-``sudo docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12``
-
-Start Application with dev profile
-
-``./gradlew bootRun --args='--spring.profiles.active=dev'``
-
-Check Actuator Health endpoint
-
-``curl http://localhost:8090/postcode/actuator/health``
-
-### Test using swagger-ui
-``http://localhost:8090/postcode/swagger-ui.html``
-
-### Swagger for building UI
-``http://localhost:8090/postcode/v2/api-docs``
+We should be using docker orchestration platform like Kubernetes or AWS Elastic Container Service
 
 
 
