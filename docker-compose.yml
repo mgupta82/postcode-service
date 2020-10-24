@@ -9,3 +9,12 @@ services:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: postgres
 
+  postcode-service:
+    image: mgupta82/postcode-service
+    links:
+      - postcode-db:postcodedb
+    ports:
+      - 80:8090
+    environment:
+      - "SPRING_PROFILES_ACTIVE=st"
+

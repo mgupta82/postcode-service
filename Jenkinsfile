@@ -12,7 +12,6 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                sh 'echo ${SHORT_GIT_COMMIT}'
                 gradlew('clean', 'classes')
             }
         }
@@ -35,6 +34,12 @@ pipeline {
             steps {
                 sh "docker build . -t postcode-service:${SHORT_GIT_COMMIT}"
             }
+        }
+    }
+    stage('Publish') {
+        steps {
+            sh "docker tag  postcode-service:${SHORT_GIT_COMMIT} docker.io/mgupta82/postcode-service:latest"
+            sh "docker push docker.io/mgupta82/postcode-service"
         }
     }
 
