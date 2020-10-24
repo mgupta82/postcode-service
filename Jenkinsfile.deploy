@@ -8,9 +8,15 @@ pipeline {
         )
     }
     stages {
-        stage('Deploy to Production') {
-            steps {
-                sh 'sudo /usr/local/bin/docker-compose up -d'
+        stage('Deploy') {
+            steps{
+                ssh(SSHSite:[ec2-user@postcode.mukeshgupta.info]) {
+                    sh 'docker stop postgresdb'
+                    sh 'docker stop postcodeapp'
+                    sh 'docker rm postcodeapp'
+                    sh 'docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12'
+                    sh 'docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service'
+                }
             }
         }
     }
