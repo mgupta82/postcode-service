@@ -1,0 +1,55 @@
+---
+Parameters:
+  SSHKey:TestInstance
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair
+
+Resources:
+  TestInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:  ap-southeast-2a
+      ImageId: ami-0970010f37c4f9c8d
+      InstanceType: t2.micro
+      KeyName: !Ref SSHKey
+      SecurityGroups:
+        - !Ref SSHSecurityGroup
+        - !Ref ServerSecurityGroup
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash -xe
+          sudo yum update -y
+          sudo amazon-linux-extras install docker
+          sudo yum install docker
+          sudo service docker start
+          sudo usermod -a -G docker ec2-user
+
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSHKey
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+
+  ServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable Web Port
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  TestDns:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: Z2BM0YUABCKP68
+      Name: postcode.mukeshgupta.info
+      Type: A
+      TTL: 15
+      ResourceRecords:
+        - !GetAtt TestInstance.PrivateIp

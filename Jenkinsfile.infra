@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage('Create Infra') {
+            steps {
+                sh 'aws cloudformation --stack-name postcode-ec2 --template-file ./ec2-infra.yaml ---parameters SSHKey=ec2-web'
+            }
+        }
+    }
+}
