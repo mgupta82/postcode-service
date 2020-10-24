@@ -7,9 +7,11 @@ pipeline {
                 description: 'Git commit hash used to promote'
         )
     }
-    stage('Deploy to Production') {
-        steps {
-            sh 'sudo /usr/local/bin/docker-compose up -d'
+    stages {
+        stage('Deploy to Production') {
+            steps {
+                sh 'sudo /usr/local/bin/docker-compose up -d'
+            }
         }
     }
  }
