@@ -43,6 +43,11 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
 
+  TestEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref TestInstance
+
   TestDns:
     Type: AWS::Route53::RecordSet
     Properties:
@@ -51,4 +56,4 @@ Resources:
       Type: A
       TTL: 15
       ResourceRecords:
-        - !GetAtt TestInstance.PrivateIp
+        - !GetAtt TestInstance.PublicIp
