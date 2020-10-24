@@ -31,13 +31,14 @@ pipeline {
                 sh "sudo docker build . -t postcode-service:${SHORT_GIT_COMMIT}"
             }
         }
-    }
-    stage('Publish') {
-        steps {
-            sh "sudo docker tag  postcode-service:${SHORT_GIT_COMMIT} docker.io/mgupta82/postcode-service:latest"
-            sh "sudo docker push docker.io/mgupta82/postcode-service"
+        stage('Publish') {
+            steps {
+                sh "sudo docker tag  postcode-service:${SHORT_GIT_COMMIT} docker.io/mgupta82/postcode-service:latest"
+                sh "sudo docker push docker.io/mgupta82/postcode-service"
+            }
         }
     }
+
 
     post {
         failure {
