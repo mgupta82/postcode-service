@@ -14,6 +14,6 @@
 
 ## Run Project
 
-``sudo /usr/local/bin/docker-compose -d up``
+``sudo /usr/local/bin/docker-compose up -d``
 
 ``sudo /usr/local/bin/docker-compose down``
