@@ -17,6 +17,7 @@ pipeline {
                     				ssh -o StrictHostKeyChecking=no -i ${PRIVATEKEY} ${USERNAME}@postcode.mukeshgupta.info >> ENDSSH
                                         sudo docker stop postgresdb || true
                                         sudo docker stop postcodeapp || true
+                                        sudo docker rm postgresdb || true
                                         sudo docker rm postcodeapp || true
                                         sudo docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12
                                         sudo docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service
