@@ -15,11 +15,7 @@ pipeline {
                     			echo '*** Executing remote commands ***'
                     			sh '''
                     				ssh -o StrictHostKeyChecking=no -i ${PRIVATEKEY} ${USERNAME}@postcode.mukeshgupta.info >> ENDSSH
-                                        docker stop postgresdb
-                                        docker stop postcodeapp
-                                        docker rm postcodeapp
-                                        docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12
-                                        docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service
+                                        sudo docker info
                                     ENDSSH
                                    '''
                     }
