@@ -18,8 +18,8 @@ docker stop postgresdb || true
 docker stop postcodeapp || true
 docker rm postgresdb || true
 docker rm postcodeapp || true
-docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12
-docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service
+docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12 || true
+docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service || true
 EOF"""
 
                     }
