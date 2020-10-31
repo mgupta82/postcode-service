@@ -12,13 +12,7 @@ pipeline {
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'aws-ec2', keyFileVariable: 'PRIVATEKEY', passphraseVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                     sshagent(credentials: [${PRIVATEKEY}]) {
-                        sh "ssh -o StrictHostKeyChecking=no ${USERNAME}@postcode.mukeshgupta.info
-                        \"docker stop postgresdb\"
-                        \"docker stop postcodeapp\"
-                        \"docker rm postcodeapp\"
-                        \"docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12\"
-                        \"docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service\"
-                        "
+                        sh "ssh -o StrictHostKeyChecking=no ${USERNAME}@postcode.mukeshgupta.info \"docker info\""
                     }
                 }
             }
