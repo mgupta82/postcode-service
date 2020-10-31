@@ -14,14 +14,11 @@ pipeline {
                     script {
                     			echo '*** Executing remote commands ***'
                     			sh '''
-                    				ssh -o StrictHostKeyChecking=no ${USERNAME}@postcode.mukeshgupta.info >> ENDSSH
+                    				ssh -o StrictHostKeyChecking=no -i ${PRIVATEKEY} ${USERNAME}@postcode.mukeshgupta.info >> ENDSSH
                     				docker info
                                     ENDSSH
                                    '''
                     }
-                    /*sshagent(credentials: [${PRIVATEKEY}]) {
-                        sh "ssh -o StrictHostKeyChecking=no ${USERNAME}@postcode.mukeshgupta.info \"docker info\""
-                    }*/
                 }
             }
         }
