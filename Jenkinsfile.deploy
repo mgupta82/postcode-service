@@ -11,9 +11,9 @@ pipeline {
         stage('Deploy') {
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'aws-ec2', keyFileVariable: 'PRIVATEKEY', passphraseVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                    sshagent(credentials: [${PRIVATEKEY}]) {
+                    /*sshagent(credentials: [${PRIVATEKEY}]) {
                         sh "ssh -o StrictHostKeyChecking=no ${USERNAME}@postcode.mukeshgupta.info \"docker info\""
-                    }
+                    }*/
                 }
             }
         }
