@@ -10,12 +10,19 @@ pipeline {
     stages {
         stage('Deploy') {
             steps{
-                ssh(SSHSite:[ec2-user@postcode.mukeshgupta.info]) {
-                    sh 'docker stop postgresdb'
-                    sh 'docker stop postcodeapp'
-                    sh 'docker rm postcodeapp'
-                    sh 'docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12'
-                    sh 'docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service'
+                withCredentials([sshUserPrivateKey(credentialsId: 'aws-ec2', keyFileVariable: 'PRIVATEKEY', passphraseVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    script {
+echo '*** Executing remote commands ***'
+sh """ssh -o StrictHostKeyChecking=no -i ${PRIVATEKEY} ${USERNAME}@postcode.mukeshgupta.info << EOF
+docker stop postgresdb || true
+docker stop postcodeapp || true
+docker rm postgresdb || true
+docker rm postcodeapp || true
+docker run -d --name postgresdb -p 5432:5432 -e POSTGRES_PASSWORD=secret postgres:12 || true
+docker run -d --name postcodeapp -p 80:8090 -e SPRING_PROFILES_ACTIVE=st mgupta82/postcode-service || true
+EOF"""
+
+                    }
                 }
             }
         }
