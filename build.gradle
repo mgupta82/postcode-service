@@ -30,6 +30,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	testImplementation 'com.h2database:h2'
 	testImplementation 'com.github.tomakehurst:wiremock-jre8:2.27.2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
