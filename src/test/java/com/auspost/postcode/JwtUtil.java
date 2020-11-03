@@ -29,6 +29,8 @@ public class JwtUtil {
                 .setIssuer("http://localhost:8089/auth/realms/test")
                 .setIssuedAt(new Date())
                 .setAudience("postcode")
+                .setHeaderParam("kid","c/e6pHOPY+cmnSHXsJ5QtQctyqM=")
+                .setHeaderParam("typ","JWT")
                 .setId(UUID.randomUUID().toString())
                 .claim("groups", new String[] { "user", "admin" })
                 .claim("typ","Bearer")
