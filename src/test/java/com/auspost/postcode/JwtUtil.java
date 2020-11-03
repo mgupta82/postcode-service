@@ -13,7 +13,9 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 
 public class JwtUtil {
 
@@ -24,8 +26,14 @@ public class JwtUtil {
 
         String token = Jwts.builder().setSubject("test")
                 .setExpiration(date.getTime())
-                .setIssuer("test@mukeshgupta.info")
+                .setIssuer("http://localhost:8089/auth/realms/test")
+                .setIssuedAt(new Date())
+                .setAudience("postcode")
+                .setId(UUID.randomUUID().toString())
                 .claim("groups", new String[] { "user", "admin" })
+                .claim("typ","Bearer")
+                .claim("azp","postcode-client")
+                .claim("scope","profile")
                 .signWith(SignatureAlgorithm.RS256, rsaPrivateKey).compact();
         return token;
     }

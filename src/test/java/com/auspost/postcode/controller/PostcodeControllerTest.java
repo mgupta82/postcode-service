@@ -1,5 +1,6 @@
 package com.auspost.postcode.controller;
 
+import com.auspost.postcode.JwtUtil;
 import com.auspost.postcode.dto.ErrorResponse;
 import com.auspost.postcode.repository.entity.Postcode;
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -38,10 +39,10 @@ public class PostcodeControllerTest {
     }
 
     @Test
-    public void testAddPostcode() {
+    public void testAddPostcode() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE);
-        httpHeaders.set("Authorization", ACCESS_TOKEN);
+        httpHeaders.set("Authorization", "Bearer "+ JwtUtil.generateJwtToken());
         Postcode postcode = Postcode.builder()
                 .code(3163)
                 .suburb("Carnegie")
@@ -56,10 +57,10 @@ public class PostcodeControllerTest {
     }
 
     @Test
-    public void testGetPostcode() {
+    public void testGetPostcode() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE);
-        httpHeaders.set("Authorization", ACCESS_TOKEN);
+        httpHeaders.set("Authorization", "Bearer "+ JwtUtil.generateJwtToken());
         HttpEntity request = new HttpEntity<>(null);
         ResponseEntity<Postcode> responseEntity = restTemplate.exchange("/postcode/details/3192", HttpMethod.GET,request,Postcode.class);
         AssertionErrors.assertEquals("Invalid Http Status",HttpStatus.OK,responseEntity.getStatusCode());
@@ -69,10 +70,10 @@ public class PostcodeControllerTest {
     }
 
     @Test
-    public void testSearchSuburb() {
+    public void testSearchSuburb() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE);
-        httpHeaders.set("Authorization", ACCESS_TOKEN);
+        httpHeaders.set("Authorization", "Bearer "+ JwtUtil.generateJwtToken());
         HttpEntity request = new HttpEntity<>(null);
         ResponseEntity<Postcode[]> responseEntity = restTemplate.exchange("/postcode/suburb/cha", HttpMethod.GET,request, Postcode[].class);
         AssertionErrors.assertEquals("Invalid Http Status",HttpStatus.OK,responseEntity.getStatusCode());
@@ -80,10 +81,10 @@ public class PostcodeControllerTest {
     }
 
     @Test
-    public void testErrorScenario() {
+    public void testErrorScenario() throws Exception {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("content-type", MediaType.APPLICATION_JSON_VALUE);
-        httpHeaders.set("Authorization", ACCESS_TOKEN);
+        httpHeaders.set("Authorization", "Bearer "+ JwtUtil.generateJwtToken());
         Postcode postcode = Postcode.builder()
                 .code(3111)
                 .suburb(null)
