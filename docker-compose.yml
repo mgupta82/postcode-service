@@ -8,3 +8,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: postgres
+
+  auth-server:
+    image: jboss/keycloak
+    volumes:
+      - ./tmp:/tmp
+    ports:
+      - "8070:8080"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: secret
+      KEYCLOAK_IMPORT: /tmp/test-realm.json

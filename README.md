@@ -78,6 +78,36 @@ Start Dependencies and applications (ST Env)
 
 We should be using docker orchestration platform like Kubernetes or AWS Elastic Container Service
 
+## Auth Provider - KeyCloak
+
+### Create initial Admin User
+Open URL => http://localhost:8070/auth/
+We have already created while runnning docker-compose
+
+### Create test realm
+you can create a test realm (tenant) for testing. But for dev purpose we will use alreay created tenant MASTER
+
+Open URL => http://localhost:8070/auth/admin
+
+### Create Application client
+We need to create Application client of type CLIENT_CREDENTIALS
+
+Enable "Service Accounts" (i.e CLIENT_CREDNETIALS)
+
+Change Access Type to CONFIDENTIAL to generate Client Secret
+
+Disable all other flows like STANDARD, IMPLICIT, DIRECT ACCESS
+
+Certs endpoint can be accessed => curl --location --request GET 'http://localhost:8070/auth/realms/master/protocol/openid-connect/certs'
+
+Token can be retrieved using 
+
+curl --location --request POST 'http://localhost:8070/auth/realms/master/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=client_credentials' \
+--data-urlencode 'client_id=postcode-client' \
+--data-urlencode 'client_secret=d43deb37-f9e9-4cee-8df3-742e3933cde0' \
+--data-urlencode 'scope=profile'
 
 
 

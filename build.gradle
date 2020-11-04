@@ -25,11 +25,14 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: '2.3.4.RELEASE'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	testImplementation 'com.h2database:h2'
+	testImplementation 'com.github.tomakehurst:wiremock-jre8:2.27.2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
