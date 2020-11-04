@@ -4,6 +4,7 @@ import com.auspost.postcode.JwtUtil;
 import com.auspost.postcode.dto.ErrorResponse;
 import com.auspost.postcode.repository.entity.Postcode;
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,7 +31,12 @@ public class PostcodeControllerTest {
 
     @BeforeAll
     public static void setup() {
+        WireMock.configureFor("localhost", 8089);
         wireMockServer.start();
+        WireMock.stubFor(WireMock.get(WireMock.urlEqualTo("/auth/realms/test/protocol/openid-connect/certs"))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBodyFile("jwks_response.json")));
     }
 
     @AfterAll
@@ -50,6 +56,7 @@ public class PostcodeControllerTest {
                 .build();
         HttpEntity<Postcode> request = new HttpEntity<>(postcode);
         ResponseEntity<Postcode> responseEntity = restTemplate.exchange("/postcode/create", HttpMethod.POST,request,Postcode.class);
+        WireMock.verify(1, WireMock.getRequestedFor(WireMock.urlEqualTo("/auth/realms/test/protocol/openid-connect/certs")));
         AssertionErrors.assertEquals("Invalid Http Status",HttpStatus.CREATED,responseEntity.getStatusCode());
         AssertionErrors.assertEquals("Invalid code",3163,responseEntity.getBody().getCode());
         AssertionErrors.assertEquals("Invalid suburb","Carnegie",responseEntity.getBody().getSuburb());
