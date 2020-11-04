@@ -11,9 +11,11 @@ services:
 
   auth-server:
     image: jboss/keycloak
+    volumes:
+      - ./tmp:/tmp
     ports:
       - "8070:8080"
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: secret
-#      KEYCLOAK_IMPORT: /tmp/test-realm.json
+      KEYCLOAK_IMPORT: /tmp/test-realm.json
