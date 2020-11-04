@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping(path = "/postcode")
+@RequestMapping(path = "/api")
 public class PostcodeController {
 
     @Autowired
