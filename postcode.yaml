@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Unique key of the Deployment instance
+  name: postcode-deployment
+spec:
+  minReadySeconds: 30
+  # 1 Pods should exist at all times.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postcode
+  template:
+    metadata:
+      labels:
+        app: postcode
+    spec:
+      containers:
+        - name: postcode
+          image: mgupta82/postcode-service
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "sit"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # Unique key of the Service instance
+  name: postcode-service
+spec:
+  selector:
+    app: postcode
+  ports:
+    - name: tcp
+      port: 8090
+      targetPort : 8090
+  type : LoadBalancaer
