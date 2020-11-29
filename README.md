@@ -78,6 +78,12 @@ Start Dependencies and applications (ST Env)
 
 We should be using docker orchestration platform like Kubernetes or AWS Elastic Container Service
 
+kubectl apply -f pod-postcode.yml
+
+kubectl get all
+
+minikube ip
+
 ## Auth Provider - KeyCloak
 
 ### Create initial Admin User
