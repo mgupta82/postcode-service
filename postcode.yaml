@@ -35,4 +35,4 @@ spec:
     - name: tcp
       port: 8090
       targetPort : 8090
-  type : LoadBalancaer
+  type : LoadBalancer
